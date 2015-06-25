@@ -13,6 +13,13 @@ npm install cli-completion -g
 
 # Usage
 
+Type `node` or `iojs` first then script name and after that use `[TAB]`.
+
+```
+> nodejs app[TAB] # -> app.js
+> nodejs app.js serv[TAB] # -> server
+```
+
 Create `cli-completion.js` inside your project's directory. Example:
 
 ```javascript
