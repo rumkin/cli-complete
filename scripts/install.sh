@@ -1,0 +1,1 @@
+cp ./bash_completion.sh /etc/bash_completion.d/nodejs

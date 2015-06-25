@@ -1,0 +1,16 @@
+{
+  "name": "cli-complete",
+  "version": "0.1.0",
+  "os":["unix"],
+  "preferGlobal":true,
+  "scripts":{
+    "preinstall":"bash ./scripts/install.sh",
+    "postuninstall":"bash ./scripts/uninstall.sh"
+  },
+  "homepage":"http://github.com/rumkin/cli-complete",
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/rumkin/cli-complete.git"
+  },
+  "main":"src/index.js"
+}
