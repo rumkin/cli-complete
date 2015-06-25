@@ -1,6 +1,6 @@
 {
   "name": "cli-complete",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "os":["unix"],
   "preferGlobal":true,
   "scripts":{
