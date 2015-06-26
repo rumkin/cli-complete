@@ -13,19 +13,19 @@ npm install cli-completion -g
 
 # Usage
 
-Type `node` or `iojs` first then script name and after that use `[TAB]`.
-
-```
-> nodejs app[TAB] # -> app.js
-> nodejs app.js serv[TAB] # -> server
-```
-
 Create `cli-completion.js` inside your project's directory. Example:
 
 ```javascript
 if (process.argv.length === 3) {
     console.log("server generate dump");
 }
+```
+
+Type `node` or `iojs` first then script name and after that use `[TAB]`.
+
+```
+> node app[TAB] # -> app.js
+> node app.js serv[TAB] # -> server
 ```
 
 Or using `cli-completion` helper:

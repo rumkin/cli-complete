@@ -1,46 +1,44 @@
 _node()
 {
-	COMPREPLY=();
-	local current values value cmd complete script dir items
+	local current values value cmd tail script dir items
 
+	COMPREPLY=();
 	current="${COMP_WORDS[COMP_CWORD]}"
 
-	if [ $COMP_CWORD -gt 1 ]
+	if [ $COMP_CWORD -eq 1 ]
 	then
-		dir=$(dirname ${COMP_WORDS[1]})
-		script="${dir}/cli-complete.js"
+			_longopt
+    		return 0
+	fi
 
-		if [ ! -f "${script}" ]
-		then
-			return 0
-		fi
+	dir=$(dirname ${COMP_WORDS[1]})
+	script="${dir}/cli-complete.js"
 
-		cmd=${COMP_WORDS[0]}
-		complete=("${COMP_WORDS[@]:2:COMP_CWORD-1}")
-		values=($($cmd $script "${complete[@]}"))
-
-		items=${#values[@]}
-		complen=${#complete}
-
-		if [ $items -eq 1 ]
-		then
-			COMPREPLY=( ${values[0]} )
-		else
-			for (( i=0; i<items; i++ ))
-			do
-				value=${values[$i]}
-				if [ -n "${value}" ] && [ "${value:0:$complen}" == "$current" ]
-				then
-					COMPREPLY+=( ${values[$i]} )
-				fi
-			done
-		fi
-	else
-		_longopt
+	if [ ! -f "${script}" ]
+	then
 		return 0
 	fi
 
+	cmd=${COMP_WORDS[0]}
+	tail=("${COMP_WORDS[@]:2:COMP_CWORD-1}")
+	values=($($cmd $script "${tail[@]}"))
 
+	items=${#values[@]}
+	complen=${#current}
+
+	if [ $items -eq 1 ]
+	then
+		COMPREPLY=( ${values[0]} )
+	else
+		for (( i=0; i<items; i++ ))
+		do
+			value=${values[$i]}
+			if [ -n "${value}" ] && [ "${value:0:$complen}" == "$current" ]
+			then
+				COMPREPLY+=( ${values[$i]} )
+			fi
+		done
+	fi
 
 	return 0
 }
