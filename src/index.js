@@ -1,5 +1,5 @@
 module.exports = complete;
-var fs = require('fs');
+var fs = require("fs");
 
 function complete(argv, completion) {
     if (arguments.length === 1) {
@@ -10,16 +10,18 @@ function complete(argv, completion) {
     if (argv === process.argv) argv = argv.slice(2);
     else argv = argv.slice();
 
+    var values;
 
     while(argv.length > 1) {
-        if (argv.length === 2 && typeof completion[argv[0]] === 'function') {
+        if (argv.length === 2 && typeof completion[argv[0]] === "function") {
             completion[argv[0]](argv[1]);
             return;
-        } else if (completion[argv[0]] === 'function') {
+        } else if (completion[argv[0]] === "function") {
             completion[argv[0]]();
             return;
         } else if (argv.length === 2 && Array.isArray(completion[argv[0]])) {
-            console.log(completion[argv[0]].filter(createFilter(argv[1])).join(" "));
+            values = completion[argv[0]].filter(createFilter(argv[1]));
+            console.log(values.join(" "));
             return;
         }
 
@@ -30,7 +32,8 @@ function complete(argv, completion) {
         completion = completion[argv.shift()];
     }
 
-    console.log(Object.keys(completion).filter(createFilter(argv[0])).join(' '));
+    values = Object.keys(completion).filter(createFilter(argv[0]));
+    console.log(values.join(" "));
 }
 
 function createFilter(value) {
