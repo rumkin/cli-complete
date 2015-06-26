@@ -1,7 +1,8 @@
 _node()
 {
 	COMPREPLY=();
-	local current
+	local current values value cmd complete script dir items
+
 	current="${COMP_WORDS[COMP_CWORD]}"
 
 	if [ $COMP_CWORD -gt 1 ]
@@ -16,17 +17,29 @@ _node()
 
 		cmd=${COMP_WORDS[0]}
 		complete=("${COMP_WORDS[@]:2:COMP_CWORD-1}")
+		values=($($cmd $script "${complete[@]}"))
 
-		opts=$($cmd $script "${complete[@]}")
+		items=${#values[@]}
+		complen=${#complete}
+
+		if [ $items -eq 1 ]
+		then
+			COMPREPLY=( ${values[0]} )
+		else
+			for (( i=0; i<items; i++ ))
+			do
+				value=${values[$i]}
+				if [ -n "${value}" ] && [ "${value:0:$complen}" == "$current" ]
+				then
+					COMPREPLY+=( ${values[$i]} )
+				fi
+			done
+		fi
 	else
 		_longopt
 		return 0
 	fi
 
-	if [ ${#COMPREPLY} -eq 0 ]
-	then
-		COMPREPLY=( $(compgen -W "${opts[@]}" -- ${current}) )
-	fi
 
 
 	return 0
